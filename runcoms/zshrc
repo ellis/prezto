@@ -11,4 +11,21 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+alias ack="ack-grep"
+alias l='ls -1AF'
+alias l1='ls -1F'
+alias ll='ls -lF'
+alias tvim="gvim --servername general --remote-tab"
+
+if [ -x /usr/bin/dircolors ]; then
+    FILE=~/.zprezto/files/dircolors
+    test -r $FILE && eval "$(dircolors $FILE)" || eval "$(dircolors -b)"
+fi
+# Disable auto-correction
+#unsetopt correct_all
+
+# Let '#' be used for comments on the command line
+setopt interactivecomments
+# Don't overwrite files by piping with '>'.  To force overwrite, use '>!'
+setopt noclobber
 
