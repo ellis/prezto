@@ -11,14 +11,25 @@
 # Load dependencies.
 pmodload 'helper'
 
-function prompt_ellis_pwd {
-  local pwd="${PWD/#$HOME/~}"
+start_time=$SECONDS
+function prompt_ellis_preexec {
+  start_time=$SECONDS
+}
 
-  if [[ "$pwd" == (#m)[/~] ]]; then
-    _prompt_ellis_pwd="$MATCH"
-    unset MATCH
-  else
-    _prompt_ellis_pwd="${${${(@j:/:M)${(@s:/:)pwd}##.#?}:h}%/}/${pwd:t}"
+# Copied from http://www.paradox.gd/posts/9-my-new-zsh-prompt
+function calc_elapsed_time {
+  if [[ $timer_result -ge 3600 ]]; then
+    let "timer_hours = $timer_result / 3600"
+    let "remainder = $timer_result % 3600"
+    let "timer_minutes = $remainder / 60"
+    let "timer_seconds = $remainder % 60"
+    print -P "%B%F{red}>>> elapsed time ${timer_hours}h${timer_minutes}m${timer_seconds}s%b"
+  elif [[ $timer_result -ge 60 ]]; then
+    let "timer_minutes = $timer_result / 60"
+    let "timer_seconds = $timer_result % 60"
+    print -P "%B%F{yellow}>>> elapsed time ${timer_minutes}m${timer_seconds}s%b"
+  elif [[ $timer_result -gt 10 ]]; then
+    print -P "%B%F{green}>>> elapsed time ${timer_result}s%b"
   fi
 }
 
@@ -26,12 +37,18 @@ function prompt_ellis_precmd {
   setopt LOCAL_OPTIONS
   unsetopt XTRACE KSH_ARRAYS
 
-  # Format PWD.
-  prompt_ellis_pwd
-
   # Get Git repository information.
   if (( $+functions[git-info] )); then
     git-info
+  fi
+
+  # Update timer
+  if [ -n "${start_time+x}" ]; then
+    timer_result=$(($SECONDS-$start_time))
+    if [[ $timer_result -gt 10 ]]; then
+      calc_elapsed_time
+    fi
+    unset start_time
   fi
 }
 
@@ -44,34 +61,39 @@ function prompt_ellis_setup {
   autoload -Uz add-zsh-hook
 
   # Add hook for calling git-info before each command.
+  add-zsh-hook preexec prompt_ellis_preexec
   add-zsh-hook precmd prompt_ellis_precmd
 
   zstyle ':prezto:module:editor:info:completing' format '%B%F{red}...%f%b'
   zstyle ':prezto:module:editor:info:keymap:primary' format '%F{blue}❯%f'
   zstyle ':prezto:module:editor:info:keymap:primary:overwrite' format '%F{red}♺%f'
   zstyle ':prezto:module:editor:info:keymap:alternate' format '%F{blue}❮%f'
-  zstyle ':prezto:module:git:info:action' format ':%%B%F{yellow}%s%f%%b'
-  zstyle ':prezto:module:git:info:added' format ' %%B%F{green}✚%f%%b'
-  zstyle ':prezto:module:git:info:ahead' format ' %%B%F{yellow}⬆%f%%b'
-  zstyle ':prezto:module:git:info:behind' format ' %%B%F{yellow}⬇%f%%b'
+  zstyle ':prezto:module:git:info:action' format ':%F{yellow}%s%f'
+  zstyle ':prezto:module:git:info:added' format ' %F{green}✚%f'
+  zstyle ':prezto:module:git:info:ahead' format ' %F{yellow}⬆%f'
+  zstyle ':prezto:module:git:info:behind' format ' %F{yellow}⬇%f'
   zstyle ':prezto:module:git:info:branch' format ':%F{green}%b%f'
   zstyle ':prezto:module:git:info:commit' format ':%F{green}%.7c%f'
-  zstyle ':prezto:module:git:info:deleted' format ' %%B%F{red}✖%f%%b'
-  zstyle ':prezto:module:git:info:modified' format ' %%B%F{blue}✱%f%%b'
+  zstyle ':prezto:module:git:info:deleted' format ' %F{red}✖%f'
+  zstyle ':prezto:module:git:info:modified' format ' %F{blue}✱%f'
   zstyle ':prezto:module:git:info:position' format ':%F{red}%p%f'
-  zstyle ':prezto:module:git:info:renamed' format ' %%B%F{magenta}➜%f%%b'
-  zstyle ':prezto:module:git:info:stashed' format ' %%B%F{cyan}✭%f%%b'
-  zstyle ':prezto:module:git:info:unmerged' format ' %%B%F{yellow}═%f%%b'
-  zstyle ':prezto:module:git:info:untracked' format ' %%B%F{white}◼%f%%b'
+  zstyle ':prezto:module:git:info:renamed' format ' %F{magenta}➜%f'
+  zstyle ':prezto:module:git:info:stashed' format ' %F{cyan}✭%f'
+  zstyle ':prezto:module:git:info:unmerged' format ' %F{yellow}═%f'
+  zstyle ':prezto:module:git:info:untracked' format ' %F{white}◼%f'
   zstyle ':prezto:module:git:info:keys' format \
-    'prompt' ' (%F{blue}git%f$(coalesce "%b" "%p" "%c")%s %A%B%S%a%d%m%r%U%u)'
+    'prompt' '%K{black} (%F{blue}git%f$(coalesce "%b" "%p" "%c")%s%A%B%S%a%d%m%r%U%u) %k'
 
   # Define prompts.
   PROMPT='
-%F{cyan}%~%f${git_info:+${(e)git_info[prompt]}}%(!. %B%F{red}#%f%b.) %F{green}%n%f@%F{blue}%m%f
+%K{blue}%B%F{white}%~ %f%b%k${git_info:+${(e)git_info[prompt]}}%(!. %B%F{red}#%f%b.) %F{green}%n%f@%F{blue}%m%f
 !%h ${editor_info[keymap]} %# '
   RPROMPT='${editor_info[overwrite]}%(?:: %F{red}⏎%f)${VIM:+" %B%F{green}V%f%b"}%*'
   SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
+# colors
+#%F{white}X%F{black}X%F{red}X%F{green}X%F{blue}X%F{yellow}X%F{magenta}X%F{cyan}X%f
+#%B%F{white}X%F{black}X%F{red}X%F{green}X%F{blue}X%F{yellow}X%F{magenta}X%F{cyan}X%f%b
+#%K{white}X%K{black}X%K{red}X%K{green}X%K{blue}X%K{yellow}X%K{magenta}X%K{cyan}X%k
 }
 
 prompt_ellis_setup "$@"
