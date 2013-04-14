@@ -84,10 +84,11 @@ function prompt_ellis_setup {
   zstyle ':prezto:module:git:info:keys' format \
     'prompt' '%K{black} (%F{blue}git%f$(coalesce "%b" "%p" "%c")%s%A%B%S%a%d%m%r%U%u) %k'
 
+  ssh_prompt="%F{green}%n%f@%F{blue}%m%f "
   # Define prompts.
   PROMPT='
-%K{blue}%B%F{white}%~ %f%b%k${git_info:+${(e)git_info[prompt]}}%(!. %B%F{red}#%f%b.) %F{green}%n%f@%F{blue}%m%f
-!%h ${editor_info[keymap]} %# '
+%K{blue}%B%F{white}%~ %f%b%k%K{black} !%h %k${git_info:+${(e)git_info[prompt]}}%(!. %B%F{red}#%f%b.)
+${SSH_CONNECTION+${ssh_prompt}}${editor_info[keymap]} %F{yellow}%#%f '
   RPROMPT='${editor_info[overwrite]}%(?:: %F{red}⏎%f)${VIM:+" %B%F{green}V%f%b"}%*'
   SPROMPT='zsh: correct %F{red}%R%f to %F{green}%r%f [nyae]? '
 # colors

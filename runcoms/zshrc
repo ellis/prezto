@@ -10,22 +10,41 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# Customize to your needs...
+#
+# Aliases
+#
+
 alias ack="ack-grep"
+alias cp='nocorrect cp -iv'
 alias l='ls -1AF'
 alias l1='ls -1F'
 alias ll='ls -lF'
+alias mv='nocorrect mv -iv'
 alias tvim="gvim --servername general --remote-tab"
+
+#
+# Dircolors
+#
 
 if [ -x /usr/bin/dircolors ]; then
     FILE=~/.zprezto/files/dircolors
     test -r $FILE && eval "$(dircolors $FILE)" || eval "$(dircolors -b)"
 fi
-# Disable auto-correction
-#unsetopt correct_all
+
+#
+# Options
+#
 
 # Let '#' be used for comments on the command line
 setopt interactivecomments
 # Don't overwrite files by piping with '>'.  To force overwrite, use '>!'
 setopt noclobber
+unsetopt PATH_DIRS
+unsetopt COMPLETE_IN_WORD
 
+#
+# Key bindings
+#
+
+bindkey -M viins '^R' history-incremental-search-backward
+bindkey -M vicmd '^R' history-incremental-search-backward
