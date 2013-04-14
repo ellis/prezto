@@ -20,6 +20,7 @@ alias l='ls -1AF'
 alias l1='ls -1F'
 alias ll='ls -lF'
 alias mv='nocorrect mv -iv'
+alias rm='nocorrect rm -iv'
 alias tvim="gvim --servername general --remote-tab"
 
 #
