@@ -20,7 +20,9 @@ alias l='ls -1AF'
 alias l1='ls -1F'
 alias ll='ls -lF'
 alias mv='nocorrect mv -iv'
+alias open='xdg-open'
 alias rm='nocorrect rm -iv'
+alias t='todo.sh -t'
 alias tvim="gvim --servername general --remote-tab"
 
 # fasd aliases
@@ -62,3 +64,21 @@ unsetopt COMPLETE_IN_WORD
 
 bindkey -M viins '^R' history-incremental-search-backward
 bindkey -M vicmd '^R' history-incremental-search-backward
+
+#
+# Paths
+#
+
+if [[ "$OSTYPE" == darwin* ]]; then
+    export PATH=/Applications/git-annex.app/Contents/MacOS:$PATH
+fi
+
+#
+# MacOS changes
+#
+
+if [[ "$OSTYPE" == darwin* ]]; then
+    unalias open
+    alias tvim="mvim --remote-tab"
+    alias o='a -e open' # quick opening files with xdg-open
+fi
