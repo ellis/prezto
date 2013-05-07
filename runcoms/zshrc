@@ -22,7 +22,7 @@ alias ll='ls -lF'
 alias mv='nocorrect mv -iv'
 alias open='xdg-open'
 alias rm='nocorrect rm -iv'
-alias t='todo.sh -t'
+alias t='task'
 alias tvim="gvim --servername general --remote-tab"
 
 # fasd aliases
