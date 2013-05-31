@@ -73,6 +73,8 @@ if [[ "$OSTYPE" == darwin* ]]; then
     export PATH=/Applications/git-annex.app/Contents/MacOS:$PATH
 fi
 
+export PATH=$HOME/bin:$PATH
+
 #
 # MacOS changes
 #
