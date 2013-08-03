@@ -55,8 +55,9 @@ fi
 setopt interactivecomments
 # Don't overwrite files by piping with '>'.  To force overwrite, use '>!'
 setopt noclobber
-unsetopt PATH_DIRS
 unsetopt COMPLETE_IN_WORD
+unsetopt PATH_DIRS
+unsetopt SHARE_HISTORY
 
 #
 # Key bindings
