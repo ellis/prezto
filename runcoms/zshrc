@@ -74,6 +74,11 @@ if [[ "$OSTYPE" == darwin* ]]; then
     export PATH=/Applications/git-annex.app/Contents/MacOS:$PATH
 fi
 
+# 2013-12-15 ellis -- for Qt, but not sure if this is necessary
+if [[ -e ~/local/Qt5.2.0/5.2.0/gcc_64/bin ]]; then
+	export PATH=~/local/Qt5.2.0/5.2.0/gcc_64/bin:$PATH
+fi
+
 export PATH=$HOME/bin:$PATH
 
 #
