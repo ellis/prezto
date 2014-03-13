@@ -68,6 +68,8 @@ function prompt_ellis_setup {
   zstyle ':prezto:module:editor:info:keymap:primary' format '%F{blue}❯%f'
   zstyle ':prezto:module:editor:info:keymap:primary:overwrite' format '%F{red}♺%f'
   zstyle ':prezto:module:editor:info:keymap:alternate' format '%F{blue}❮%f'
+  # Set git-info parameters.
+  zstyle ':prezto:module:git:info' verbose 'yes'
   zstyle ':prezto:module:git:info:action' format ':%F{yellow}%s%f'
   zstyle ':prezto:module:git:info:added' format ' %F{green}✚%f'
   zstyle ':prezto:module:git:info:ahead' format ' %F{yellow}⬆%f'
