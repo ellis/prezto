@@ -9,7 +9,7 @@ Installation
 ------------
 
 Prezto will work with any recent release of Zsh, but the minimum recommended
-version is 4.3.10.
+version is 4.3.11.
 
   1. Launch Zsh:
 
@@ -36,8 +36,15 @@ version is 4.3.10.
 ### Troubleshooting
 
 If you are not able to find certain commands after switching to *Prezto*,
-modify the `PATH` variable in *~/.zshenv* then open a new Zsh terminal
+modify the `PATH` variable in *~/.zprofile* then open a new Zsh terminal
 window or tab.
+
+Updating
+--------
+
+Pull the latest changes and update submodules.
+
+    git pull && git submodule update --init --recursive
 
 Usage
 -----
@@ -63,9 +70,10 @@ accompanying README files to learn of what is available.
 Customization
 -------------
 
-The project is managed via [Git][3]. It is highly recommend that you commit
-your changes and push them to [GitHub][4] to not lose them. If you do not know
-how to use Git, follow this [tutorial][5] and bookmark this [reference][6].
+The project is managed via [Git][3]. It is highly recommended that you fork this
+project; so, that you can commit your changes and push them to [GitHub][4] to
+not lose them. If you do not know how to use Git, follow this [tutorial][5] and
+bookmark this [reference][6].
 
 Resources
 ---------
@@ -77,7 +85,8 @@ License
 
 (The MIT License)
 
-Copyright (c) 2009-2012 Robby Russell, Sorin Ionescu, and contributors.
+Copyright (c) 2009-2011 Robby Russell and contributors.
+Copyright (c) 2011-2014 Sorin Ionescu and contributors.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
