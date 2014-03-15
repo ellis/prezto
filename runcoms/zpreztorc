@@ -32,9 +32,10 @@ zstyle ':prezto:load' pmodule \
   'spectrum' \
   'utility' \
   'completion' \
-  'prompt' \
   'git' \
-  'fasd'
+  'fasd' \
+  'syntax-highlighting' \
+  'prompt'
 
 #
 # Editor
@@ -137,7 +138,7 @@ zstyle ':prezto:module:prompt' theme 'ellis'
 #
 
 # Auto set the tab and window titles.
-# zstyle ':prezto:module:terminal' auto-title 'yes'
+zstyle ':prezto:module:terminal' auto-title 'yes'
 
 # Set the window title format.
 # zstyle ':prezto:module:terminal:window-title' format '%n@%m: %s'
