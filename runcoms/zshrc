@@ -86,6 +86,9 @@ fi
 
 export PATH=$HOME/bin:$PATH
 
+# 2014-01-28 ellis -- for panels in bspwm
+export PANEL_FIFO="/tmp/panel-fifo"
+
 #
 # MacOS changes
 #
