@@ -80,6 +80,9 @@ if [[ -e ~/local/Qt5.2.0/5.2.0/gcc_64/bin ]]; then export PATH=~/local/Qt5.2.0/5
 if [[ -e ~/repo/bin ]]; then export PATH=~/repo/bin:$PATH fi
 export PATH=$HOME/bin:$PATH
 
+# 2014-01-28 ellis -- for panels in bspwm
+export PANEL_FIFO="/tmp/panel-fifo"
+
 #
 # MacOS changes
 #
