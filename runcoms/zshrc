@@ -22,8 +22,9 @@ alias ll='ls -lF'
 alias mv='nocorrect mv -iv'
 alias open='xdg-open'
 alias rm='nocorrect rm -iv'
-alias t='task'
 alias tvim="gvim --servername general --remote-tab"
+alias vimcrypt="vim -u ~/.vimcryptrc -x"
+alias wvim="gvim --servername general"
 
 # fasd aliases
 alias a='fasd -a'        # any
