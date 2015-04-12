@@ -24,7 +24,7 @@ alias open='xdg-open'
 alias rm='nocorrect rm -iv'
 alias tvim="gvim --servername general --remote-tab"
 alias vimcrypt="vim -u ~/.vimcryptrc -x"
-alias wvim="gvim --servername general"
+alias wvim="gvim --servername general --remote-silent"
 
 # fasd aliases
 alias a='fasd -a'        # any
