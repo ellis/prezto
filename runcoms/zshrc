@@ -76,8 +76,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
 fi
 
 if [[ -e ~/.cabal/bin ]]; then export PATH=~/.cabal/bin:$PATH; fi
-# 2013-12-15 ellis -- for Qt, but not sure if this is necessary
-if [[ -e ~/local/Qt5.2.0/5.2.0/gcc_64/bin ]]; then export PATH=~/local/Qt5.2.0/5.2.0/gcc_64/bin:$PATH; fi
 if [[ -e ~/admin/bin ]]; then export PATH=~/admin/bin:$PATH; fi
 if [[ -e ~/repo/bin ]]; then export PATH=~/repo/bin:$PATH; fi
 export PATH=$HOME/bin:$PATH
