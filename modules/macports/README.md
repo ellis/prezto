@@ -1,4 +1,4 @@
-Macports
+MacPorts
 ========
 
 Defines MacPorts aliases and adds MacPorts directories to path variables.
@@ -23,4 +23,3 @@ Authors
   - [Sorin Ionescu](https://github.com/sorin-ionescu)
 
 [1]: https://github.com/sorin-ionescu/prezto/issues
-

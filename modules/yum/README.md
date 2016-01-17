@@ -15,7 +15,7 @@ Aliases
   - `yumr` removes package(s).
   - `yums` searches for a package.
   - `yumu` updates packages.
-  - `yumU` upgrates packages.
+  - `yumU` upgrades packages.
 
 Authors
 -------
@@ -26,4 +26,3 @@ Authors
 
 [1]: http://yum.baseurl.org
 [2]: https://github.com/sorin-ionescu/prezto/issues
-
