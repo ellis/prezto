@@ -95,3 +95,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
     alias o='a -e open' # quick opening files with xdg-open
 	alias vim="mvim -v"
 fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
