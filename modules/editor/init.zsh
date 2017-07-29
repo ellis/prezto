@@ -78,7 +78,15 @@ zle -N edit-command-line
 #
 # Functions
 #
-
+# Runs bindkey but for all of the keymaps. Running it with no arguments will
+# print out the mappings for all of the keymaps.
+function bindkey-all {
+  local keymap=''
+  for keymap in $(bindkey -l); do
+    [[ "$#" -eq 0 ]] && printf "#### %s\n" "${keymap}" 1>&2
+    bindkey -M "${keymap}" "$@"
+  done
+}
 # Exposes information about the Zsh Line Editor via the $editor_info associative
 # array.
 function editor-info {
@@ -103,11 +111,26 @@ function editor-info {
   fi
 
   unset REPLY
-
-  zle reset-prompt
-  zle -R
+  zle zle-reset-prompt
 }
 zle -N editor-info
+
+# Reset the prompt based on the current context and
+# the ps-context option.
+function zle-reset-prompt {
+  if zstyle -t ':prezto:module:editor' ps-context; then
+    # If we aren't within one of the specified contexts, then we want to reset
+    # the prompt with the appropriate editor_info[keymap] if there is one.
+    if [[ $CONTEXT != (select|cont) ]]; then
+      zle reset-prompt
+      zle -R
+    fi
+  else
+    zle reset-prompt
+    zle -R
+  fi
+}
+zle -N zle-reset-prompt
 
 # Updates editor information when the keymap changes.
 function zle-keymap-select {
@@ -240,8 +263,8 @@ fi
 # Vi Key Bindings
 #
 
-# Edit command in an external editor.
-bindkey -M vicmd "v" edit-command-line
+# Edit command in an external editor emacs style (v is used for visual mode)
+bindkey -M vicmd "$key_info[Control]X$key_info[Control]E" edit-command-line
 
 # Undo/Redo
 bindkey -M vicmd "u" undo
@@ -258,6 +281,42 @@ fi
 #
 # Emacs and Vi Key Bindings
 #
+
+# Unbound keys in vicmd and viins mode will cause really odd things to happen
+# such as the casing of all the characters you have typed changing or other
+# undefined things. In emacs mode they just insert a tilde, but bind these keys
+# in the main keymap to a noop op so if there is no keybind in the users mode
+# it will fall back and do nothing.
+function _prezto-zle-noop {  ; }
+zle -N _prezto-zle-noop
+local -a unbound_keys
+unbound_keys=(
+  "${key_info[F1]}"
+  "${key_info[F2]}"
+  "${key_info[F3]}"
+  "${key_info[F4]}"
+  "${key_info[F5]}"
+  "${key_info[F6]}"
+  "${key_info[F7]}"
+  "${key_info[F8]}"
+  "${key_info[F9]}"
+  "${key_info[F10]}"
+  "${key_info[F11]}"
+  "${key_info[F12]}"
+  "${key_info[PageUp]}"
+  "${key_info[PageDown]}"
+)
+for keymap in $unbound_keys; do
+  bindkey -M viins "${keymap}" _prezto-zle-noop
+  bindkey -M vicmd "${keymap}" _prezto-zle-noop
+done
+# Ctrl + Left and Ctrl + Right bindings to forward/backward word
+for keymap in viins vicmd; do
+  for key in "${(s: :)key_info[ControlLeft]}"
+    bindkey -M "$keymap" "$key" vi-backward-word
+  for key in "${(s: :)key_info[ControlRight]}"
+    bindkey -M "$keymap" "$key" vi-forward-word
+done
 
 for keymap in 'emacs' 'viins'; do
   bindkey -M "$keymap" "$key_info[Home]" beginning-of-line
@@ -307,6 +366,9 @@ for keymap in 'emacs' 'viins'; do
   bindkey -M "$keymap" "$key_info[Control]X$key_info[Control]S" prepend-sudo
 done
 
+# Delete key deletes character in vimcmd cmd mode instead of weird default functionality
+bindkey -M vicmd "$key_info[Delete]" delete-char
+
 # Do not expand .... to ../.. during incremental search.
 if zstyle -t ':prezto:module:editor' dot-expansion; then
   bindkey -M isearch . self-insert 2> /dev/null
@@ -326,4 +388,4 @@ else
   print "prezto: editor: invalid key bindings: $key_bindings" >&2
 fi
 
-unset key{,map,bindings}
+unset key{,map,_bindings}

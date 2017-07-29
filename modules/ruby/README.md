@@ -45,7 +45,9 @@ rbenv.
 To enable auto switching the Ruby version on directory change based on the
 .ruby-version file, add the following line to *zpreztorc*:
 
-    zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
+```sh
+zstyle ':prezto:module:ruby:chruby' auto-switch 'yes'
+```
 
 Bundler
 -------
@@ -63,6 +65,7 @@ Aliases
 ### Bundler
 
   - `rbb` manages ruby dependencies (`bundle`).
+  - `rbbc` cleans up unused gems in your bundler directory.
   - `rbbe` executes a script in the context of the current bundle.
   - `rbbi` installs the gems specified in the *Gemfile* in *vendor/bundle*.
   - `rbbI` installs the following:
