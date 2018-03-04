@@ -52,19 +52,58 @@ The variable `$PROJECT_HOME` tells virtualenvwrapper where to place project
 working directories. It must be set and the directory created before `mkproject`
 is used. Replace *Developer* with your projects directory.
 
-    export PROJECT_HOME="$HOME/Developer"
+```sh
+export PROJECT_HOME="$HOME/Developer"
+```
+
+The variable `VIRTUALENVWRAPPER_PYTHON` tells virtualenvwrapper to use the
+specified full path of `python` interpreter overriding the `$PATH` search.
+
+```sh
+export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python
+```
+
+The variable `VIRTUALENVWRAPPER_VIRTUALENV` tells virtualenvwrapper to use the
+specified full path of `virtualenv` binary overriding the `$PATH` search.
+
+```sh
+export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
+```
 
 The variable `$VIRTUALENVWRAPPER_VIRTUALENV_ARGS` tells virtualenvwrapper what
 arguments to pass to `virtualenv`. For example, set the value to
-*--no-site-packages* to ensure that all new environments are isolated from the
+*--system-site-packages* to ensure that all new environments have access to the
 system site-packages directory.
 
-    export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--no-site-packages'
+```sh
+export VIRTUALENVWRAPPER_VIRTUALENV_ARGS='--system-site-packages'
+```
+
+### Additional Options
+
+There is a hook to enable auto-switching to virtualenvs when switching into a
+directory where the root of the project matches a virtualenv name.
+
+This can be enabled with:
+
+```sh
+zstyle ':prezto:module:python:virtualenv' auto-switch 'yes'
+```
+
+virtualenvwrapper is automatically initialized if pre-requisites are met
+(`$VIRTUALENVWRAPPER_VIRTUALENV` is explicitly set or `virtualenv` is in
+`$PATH`). This can be disabled with:
+
+```
+zstyle ':prezto:module:python:virtualenv' initialize 'no'
+```
 
 Aliases
 -------
 
   - `py` is short for `python`.
+  - `py2` is short for `python2`.
+  - `py3` is short for `python3`.
 
 Functions
 ---------
